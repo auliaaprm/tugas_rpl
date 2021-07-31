@@ -9,6 +9,7 @@ class User extends CI_Controller
 		// **
 		// load model
 		$this->load->model('MemberModel','model');
+		$this->load->model('MenuModel','menu_model');
 
 		// **
 		// get user session
@@ -32,9 +33,24 @@ class User extends CI_Controller
 		// $this->load->view('user/index', $data);
 	}
 
+	function menu_page()
+	{
+		$data['title'] = "Daftar Menu";
+		$data['user'] = $this->user;
+
+		// **
+		// view file to be loaded
+		$data['view_file'] = 'daftar_menu_page';
+
+		// **
+		// data on that page
+		$data['menu_list'] = $this->menu_model->menu_get_list();
+		$this->load->view($this->layout, $data, FALSE);
+	}
+
 	function daftar_member_page()
 	{
-		$data['title'] = "Daftar Member Page";
+		$data['title'] = "Pendaftaran Member";
 		$data['user'] = $this->user;
 
 		// **
