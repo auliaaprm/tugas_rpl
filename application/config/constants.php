@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+define('APP_NAME', 'Kopichuseyo');
 
 // **
 // construct base_url
