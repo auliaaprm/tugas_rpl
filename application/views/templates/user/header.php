@@ -57,7 +57,7 @@
 					<span>Reservasi</span></a>
 
 			<li class="nav-item">
-				<a class="nav-link" href="charts.html">
+				<a class="nav-link" href="<?= base_url('user/menu') ?>">
 					<i class="fas fa-utensils"></i>
 					<span>Menu</span></a>
 
