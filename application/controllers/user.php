@@ -7,8 +7,16 @@ class User extends CI_Controller
 	{
 		parent::__construct();
 		// **
+		// load model
+		$this->load->model('MemberModel','model');
+
+		// **
 		// get user session
 		$this->user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+		// **
+		// layout to be loaded
+		$this->layout = "templates/user/default.php";
 	}
 
 	public function index()
@@ -19,19 +27,52 @@ class User extends CI_Controller
 		// **
 		// view file to be loaded
 		$data['view_file'] = 'dashboard';
-		$this->load->view('templates/user/default.php', $data, FALSE);
+		$this->load->view($this->layout, $data, FALSE);
 
 		// $this->load->view('user/index', $data);
 	}
 
-	function daftar_member()
+	function daftar_member_page()
 	{
 		$data['title'] = "Daftar Member Page";
 		$data['user'] = $this->user;
 
 		// **
 		// view file to be loaded
-		$data['view_file'] = 'daftar_member';
-		$this->load->view('templates/user/default.php', $data, FALSE);
+		$data['view_file'] = 'daftar_member_page';
+		$this->load->view($this->layout, $data, FALSE);
+	}
+
+	function daftar_member()
+	{
+		$post = $this->input->post();
+		try {
+			$member_id = $this->model->member_save($post);
+
+			// **
+			// data notif
+			$notif_data = array();
+			$notif_data['result'] = "success";
+			$notif_data['message'] = "Berhasil mendaftar sebagai member";
+			$this->create_notif($notif_data);
+		} catch (Exception $e) {
+			// **
+			// data notif
+			$notif_data = array();
+			$notif_data['result'] = "danger";
+			$notif_data['message'] = $e->getMessage();
+			$this->create_notif($notif_data);
+		}
+		redirect('user/member/daftar','refresh');
+	}
+
+	function create_notif($data)
+	{
+		// **
+		// set notification
+		$notif_data = array();
+		$notif_data['result'] = $data['result'];
+		$notif_data['message'] = $data['message'];
+		$this->session->set_flashdata('notif', $notif_data);
 	}
 }
