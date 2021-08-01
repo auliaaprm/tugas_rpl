@@ -39,7 +39,7 @@ Class PesananModel extends CI_Model
 			$where = array();
 			$where['pesanan.id_user'] = $this->session->userdata()['id_user'];
 			$where['pesanan.id_menu'] = $post['id_menu'];
-			$where['keterangan'] = $post['keterangan'];
+			$where['id_bayar'] = $post['id_bayar'];
 			$pesanan_list = $this->pesanan_get_list($where);
 			
 			// **
