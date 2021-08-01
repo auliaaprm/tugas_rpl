@@ -52,6 +52,7 @@ Class ReservasiModel extends CI_Model
 	function riwayat_reservasi_get_list()
 	{
 		$this->db->where('id_user', $this->session->userdata()['id_user']);
+		$this->db->order_by('reservasi_created_date', 'desc');
 		$q = $this->db->get('reservasi');
 		return $result = $q->num_rows() > 0 ? $q->result_array() : array();
 	}
