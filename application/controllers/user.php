@@ -221,8 +221,20 @@ class User extends CI_Controller
 		$data['user'] = $this->user;
 
 		// **
+		// check data member by email
+		// where condition
+		$where = array();
+		$where['email'] = $this->session->userdata()['email'];
+		$member_list = $this->model->member_get_list($where);
+
+		// **
 		// view file to be loaded
-		$data['view_file'] = 'daftar_member_page';
+		if (count($member_list) > 0) {
+			$data['member_details'] = $member_list[0];
+			$data['view_file'] = "membership_page";
+		} else {
+			$data['view_file'] = 'daftar_member_page';
+		}
 		$this->load->view($this->layout, $data, FALSE);
 	}
 
