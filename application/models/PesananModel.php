@@ -24,8 +24,8 @@ Class PesananModel extends CI_Model
 		$this->db->from('pesanan');
 		$this->db->join('menu', 'menu.id_menu = pesanan.id_menu');
 		$this->db->join('user', 'user.id_user = pesanan.id_user');
-		$this->db->join('shipment', 'shipment.id_shipment = pesanan.id_shipment');
-		$this->db->join('pembayaran', 'pembayaran.id_bayar = pesanan.id_bayar');
+		$this->db->join('shipment', 'shipment.id_shipment = pesanan.id_shipment','left');
+		$this->db->join('pembayaran', 'pembayaran.id_bayar = pesanan.id_bayar','left');
 		if ($where) {
 			$this->db->where($where);
 		}
@@ -41,7 +41,7 @@ Class PesananModel extends CI_Model
 			$where = array();
 			$where['pesanan.id_user'] = $this->session->userdata()['id_user'];
 			$where['pesanan.id_menu'] = $post['id_menu'];
-			$where['id_bayar'] = $post['id_bayar'];
+			$where['pesanan.receipt_number'] = "";
 			$pesanan_list = $this->pesanan_get_list($where);
 			
 			// **
