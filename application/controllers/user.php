@@ -13,6 +13,7 @@ class User extends CI_Controller
 		$this->load->model('PesananModel','pesanan_model');
 		$this->load->model('PembayaranModel','pembayaran_model');
 		$this->load->model('ShipmentModel','shipment_model');
+		$this->load->model('ReservasiModel','reservasi_model');
 
 		// **
 		// get user session
@@ -112,6 +113,46 @@ class User extends CI_Controller
 		$data['pesanan_list'] = $this->pesanan_model->pesanan_get_list($where ?? null);
 
 		$this->load->view($this->layout, $data, FALSE);
+	}
+
+	function reservasi_page()
+	{
+		$data['title'] = "Form Reservasi";
+		$data['user'] = $this->user;
+
+		// **
+		// view file to be loaded
+		$data['view_file'] = 'reservasi_page';
+
+		// **
+		// data shown on page
+		$data['pembayaran_list'] = $this->pembayaran_model->pembayaran_get_list();
+
+		$this->load->view($this->layout, $data, FALSE);
+	}
+
+	function reservasi()
+	{
+		try {
+			$post = $this->input->post();
+			$reservasi_id = $this->reservasi_model->reservasi_save($post);
+
+			// **
+			// data notif
+			$notif_data = array();
+			$notif_data['result'] = "success";
+			$notif_data['message'] = "Berhasil melakukan reservasi tempat";
+			$this->create_notif($notif_data);
+
+		} catch (Exception $e) {
+			// **
+			// data notif
+			$notif_data = array();
+			$notif_data['result'] = "danger";
+			$notif_data['message'] = $e->getMessage();
+			$this->create_notif($notif_data);
+		}
+		redirect('user/reservasi','refresh');
 	}
 
 	function menu_page()

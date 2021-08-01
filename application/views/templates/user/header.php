@@ -54,7 +54,7 @@
 					<span>Home</span></a>
 
 			<li class="nav-item">
-				<a class="nav-link" href="charts.html">
+				<a class="nav-link" href="<?= base_url('user/reservasi') ?>">
 					<i class="fas fa-calendar-week"></i>
 					<span>Reservasi</span></a>
 
