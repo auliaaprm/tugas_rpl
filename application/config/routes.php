@@ -10,6 +10,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['user/member/daftar']['get'] = "user/daftar_member_page";
 $route['user/member/daftar']['post'] = "user/daftar_member";
 $route['user/menu']['get'] = "user/menu_page";
+$route['user/keranjang']['get'] = "user/keranjang_page";
 
 /*
 | -------------------------------------------------------------------------
