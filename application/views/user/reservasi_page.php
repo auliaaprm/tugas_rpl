@@ -1,8 +1,3 @@
-<?php if ($this->session->flashdata('notif')): ?>
-	<div class="alert alert-<?= $this->session->flashdata('notif')['result']; ?>" role="alert">
-		<?= $this->session->flashdata('notif')['message']; ?>
-	</div>
-<?php endif ?>
 <div class="p-3">
 	<?= form_open(base_url("user/reservasi"), 'class=user', $hidden ?? null); ?>
 		<div class="form-group">
