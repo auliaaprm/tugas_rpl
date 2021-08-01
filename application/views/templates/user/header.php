@@ -163,6 +163,14 @@
 							</div>
 						</li>
 
+						<li class="nav-item dropdown no-arrow mx-1">
+							<a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fa fa-shopping-cart"></i>
+								<!-- Counter - Alerts -->
+								<span class="cart-counter badge badge-danger badge-counter">0</span>
+							</a>
+						</li>
+
 						<div class="topbar-divider d-none d-sm-block"></div>
 
 						<!-- Nav Item - User Information -->
@@ -190,6 +198,6 @@
 						</li>
 
 					</ul>
-
+					
 				</nav>
 				<!-- End of Topbar -->
