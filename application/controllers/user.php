@@ -91,6 +91,7 @@ class User extends CI_Controller
 		// view file to be loaded
 		$data['view_file'] = 'riwayat_transaksi_page';
 		$data['pesanan_list'] = $this->pesanan_model->riwayat_transaksi_get_list();
+		$data['reservasi_list'] = $this->reservasi_model->riwayat_reservasi_get_list();
 
 		$this->load->view($this->layout, $data, FALSE);
 	}
@@ -117,16 +118,38 @@ class User extends CI_Controller
 
 	function reservasi_page()
 	{
-		$data['title'] = "Form Reservasi";
 		$data['user'] = $this->user;
-
+		
 		// **
-		// view file to be loaded
-		$data['view_file'] = 'reservasi_page';
+		// open specific reservasi page according to 'number' query on URL
+		if ($this->input->get('number')) {
+			$data['title'] = "Bukti Reservasi";
+			
+			// **
+			// data to show on page
+			$where = array();
+			$where['kode_reservasi'] = $this->input->get('number');
 
-		// **
-		// data shown on page
-		$data['pembayaran_list'] = $this->pembayaran_model->pembayaran_get_list();
+			// **
+			// get reservasi list
+			$reservasi_list = $this->reservasi_model->reservasi_get_list($where);
+			$data['reservasi_details'] = array();
+			if (count($reservasi_list) > 0) {
+				$data['reservasi_details'] = $reservasi_list[0];
+			}
+
+			$data['view_file'] = 'reservasi_details_page';
+		} else {
+			$data['title'] = "Form Reservasi";
+
+			// **
+			// view file to be loaded
+			$data['view_file'] = 'reservasi_page';
+			
+			// **
+			// data shown on page
+			$data['pembayaran_list'] = $this->pembayaran_model->pembayaran_get_list();
+		}
 
 		$this->load->view($this->layout, $data, FALSE);
 	}
