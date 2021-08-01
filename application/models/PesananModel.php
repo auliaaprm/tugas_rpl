@@ -24,6 +24,8 @@ Class PesananModel extends CI_Model
 		$this->db->from('pesanan');
 		$this->db->join('menu', 'menu.id_menu = pesanan.id_menu');
 		$this->db->join('user', 'user.id_user = pesanan.id_user');
+		$this->db->join('shipment', 'shipment.id_shipment = pesanan.id_shipment');
+		$this->db->join('pembayaran', 'pembayaran.id_bayar = pesanan.id_bayar');
 		if ($where) {
 			$this->db->where($where);
 		}
@@ -66,19 +68,48 @@ Class PesananModel extends CI_Model
 			// else, do insert
 			if (!empty($pesanan_details)) {
 				$this->db->where('id_pesanan', $pesanan_details['id_pesanan']);
-				$this->db->update('pesanan', $object);
-				$affected_rows = $this->db->affected_rows();
+				$operation = $this->db->update('pesanan', $object);
 			} else {
 				$this->db->insert('pesanan', $object);
-				$affected_rows = $this->db->insert_id();
+				$operation = $this->db->insert_id();
 			}
 
 			// **
 			// check if there are rows affected. either by insertion, or update
-			if (!$affected_rows) {
+			if (!$operation) {
 				throw new Exception('Gagal memasukkan barang ke keranjang');
 			}
-			return $this->db->insert_id();
+			return $operation;
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+	}
+
+	function pesanan_bayar($post)
+	{
+		try {
+			date_default_timezone_set("Asia/Singapore");
+
+			// **
+			// where condition
+			$where = array();
+			$where['id_user'] = $this->session->userdata()['id_user'];
+			$where['id_bayar'] = 0;
+
+			// **
+			// update object
+			$object = array();
+			$object['id_shipment'] = $post['shipment'];
+			$object['id_bayar'] = $post['bayar'];
+			$object['receipt_number'] = "REC/".date('Ymd')."/".bin2hex(random_bytes(10));
+			$object['receipt_created_date'] = date("Y-m-d H:i:s");
+
+			// **
+			// update query
+			$this->db->where($where);
+			if ($this->db->update('pesanan', $object)) {
+				return $object['receipt_number'];
+			}
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
