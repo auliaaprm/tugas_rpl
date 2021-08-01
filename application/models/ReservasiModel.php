@@ -20,6 +20,7 @@ Class ReservasiModel extends CI_Model
 
 	function reservasi_get_list($where = null)
 	{
+		$this->db->join('pembayaran', 'pembayaran.id_bayar = reservasi.id_bayar', 'left');
 		if ($where) {
 			$this->db->where($where);
 		}
@@ -34,6 +35,7 @@ Class ReservasiModel extends CI_Model
 			// object save
 			$object = array();
 			$object = $post;
+			$object['id_user'] = $this->session->userdata()['id_user'] ?? 0;
 			$object['id_bayar'] = $post['bayar'];
 			$object['kode_reservasi'] = mt_rand(1111111111111,9999999999999);
 			unset($object['bayar']);
@@ -45,5 +47,12 @@ Class ReservasiModel extends CI_Model
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
+	}
+
+	function riwayat_reservasi_get_list()
+	{
+		$this->db->where('id_user', $this->session->userdata()['id_user']);
+		$q = $this->db->get('reservasi');
+		return $result = $q->num_rows() > 0 ? $q->result_array() : array();
 	}
 }
