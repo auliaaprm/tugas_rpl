@@ -43,7 +43,7 @@ Class PesananModel extends CI_Model
 			$where['pesanan.id_menu'] = $post['id_menu'];
 			$where['pesanan.receipt_number'] = "";
 			$pesanan_list = $this->pesanan_get_list($where);
-			
+
 			// **
 			// if pesanan is already exist
 			if (count($pesanan_list) > 0) {
@@ -81,6 +81,56 @@ Class PesananModel extends CI_Model
 			}
 			return $operation;
 		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+	}
+
+	function pesanan_update($post)
+	{
+		try {
+			$this->db->trans_start();			
+			// **
+			// id_pesanan_list. container to store id_pesanan that has 0 total item
+			$id_pesanan_list = array();
+
+			// **
+			// object update batch container
+			$object_update_batch = array();
+
+			// **
+			// construct array for update batch
+			foreach ($post['id_pesanan'] as $key => $value) {
+				// **
+				// check if total item of this key has at least one.
+				// else, push id_pesanan to $id_pesanan_list as it's gonna be deleted later
+				if ($post['total_item'][$key] < 1) {
+					$id_pesanan_list[] = $value;
+					continue;
+				}
+
+				// **
+				// object update
+				$object = array();
+				$object['id_pesanan'] = $value;
+				$object['total_item'] = $post['total_item'][$key];
+				$object_update_batch[] = $object;
+			}
+
+			// **
+			// do update batch
+			$this->db->update_batch('pesanan', $object_update_batch, 'id_pesanan');
+			
+			// **
+			// delete data that has total_item = 0
+			if (count($id_pesanan_list) > 0) {
+				$this->db->where_in('id_pesanan', $id_pesanan_list);
+				$this->db->delete('pesanan');
+			}
+
+			$this->db->trans_complete();
+			$this->db->trans_commit();
+		} catch (Exception $e) {
+			$this->db->trans_rollback();
 			throw new Exception($e->getMessage());
 		}
 	}
