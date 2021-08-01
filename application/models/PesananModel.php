@@ -47,6 +47,7 @@ Class PesananModel extends CI_Model
 			if (count($pesanan_list) > 0) {
 				$pesanan_details = $pesanan_list[0];
 				$post['total_harga'] += $pesanan_details['total_harga'];
+				$post['item_amount'] += $pesanan_details['total_item'];
 			}
 
 			// **
@@ -57,6 +58,7 @@ Class PesananModel extends CI_Model
 			}
 			$object['id_menu'] = $post['id_menu'];
 			$object['id_user'] = $this->session->userdata()['id_user'];
+			$object['total_item'] = $post['item_amount'];
 			$object['total_harga'] = $post['total_harga'];
 
 			// **
