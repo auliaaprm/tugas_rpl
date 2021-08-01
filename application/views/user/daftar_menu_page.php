@@ -1,4 +1,9 @@
-<h6>Lihat keranjang</h6>
+<a href="<?= base_url()."user/keranjang" ?>" class="btn btn-primary btn-icon-split btn-sm my-2 mb-3">
+	<span class="icon text-white-50">
+		<i class="fa fa-shopping-cart"></i>
+	</span>
+	<span class="text">Lihat Keranjang</span>
+</a>
 <div class="row">
 <?php foreach ($menu_list as $list): ?>
 	<div class="col-sm-6 col-lg-2 p-2">
