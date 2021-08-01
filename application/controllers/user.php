@@ -45,7 +45,7 @@ class User extends CI_Controller
 		// **
 		// view file to be loaded
 		$data['view_file'] = 'keranjang_page';
-		$data['title_page'] = 'Pesanan Anda';
+		$data['title_page'] = 'Keranjang';
 
 		// **
 		// where condition for getting pesanan list
@@ -80,6 +80,29 @@ class User extends CI_Controller
 			$notif_data['message'] = $e->getMessage();
 			$this->create_notif($notif_data);
 		}
+	}
+
+	function keranjang_update()
+	{
+		try {
+			$post = $this->input->post();
+			$this->pesanan_model->pesanan_update($post);
+
+			// **
+			// data notif
+			$notif_data = array();
+			$notif_data['result'] = "success";
+			$notif_data['message'] = "Berhasil update keranjang";
+			$this->create_notif($notif_data);
+		} catch (Exception $e) {
+			// **
+			// data notif
+			$notif_data = array();
+			$notif_data['result'] = "danger";
+			$notif_data['message'] = $e->getMessage();
+			$this->create_notif($notif_data);
+		}
+		redirect('user/keranjang','refresh');
 	}
 
 	function riwayat_transaksi_page()
@@ -166,7 +189,6 @@ class User extends CI_Controller
 			$notif_data['result'] = "success";
 			$notif_data['message'] = "Berhasil melakukan reservasi tempat";
 			$this->create_notif($notif_data);
-
 		} catch (Exception $e) {
 			// **
 			// data notif
