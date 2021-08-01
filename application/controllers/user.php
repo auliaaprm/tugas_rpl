@@ -11,6 +11,8 @@ class User extends CI_Controller
 		$this->load->model('MemberModel','model');
 		$this->load->model('MenuModel','menu_model');
 		$this->load->model('PesananModel','pesanan_model');
+		$this->load->model('PembayaranModel','pembayaran_model');
+		$this->load->model('ShipmentModel','shipment_model');
 
 		// **
 		// get user session
@@ -45,8 +47,57 @@ class User extends CI_Controller
 		$data['title_page'] = 'Pesanan Anda';
 
 		// **
+		// where condition for getting pesanan list
+		$where = array();
+		$where['pesanan.id_user'] = $this->session->userdata()['id_user'];
+		$where['pesanan.id_bayar'] = "0";
+		
+		// **
+		// data to show on page
+		$data['pesanan_list'] = $this->pesanan_model->pesanan_get_list($where);
+		$data['pembayaran_list'] = $this->pembayaran_model->pembayaran_get_list();
+		$data['shipment_list'] = $this->shipment_model->shipment_get_list();
+
+		// **
 		// data on that page
 		$data['menu_list'] = $this->menu_model->menu_get_list();
+		$this->load->view($this->layout, $data, FALSE);
+	}
+
+	function keranjang_bayar()
+	{
+		try {
+			$post = $this->input->post();
+			$receipt_number = $this->pesanan_model->pesanan_bayar($post);
+			redirect("user/receipt?number=$receipt_number",'refresh');
+			// $this->receipt_details_page($receipt_number);
+		} catch (Exception $e) {
+			// **
+			// data notif
+			$notif_data = array();
+			$notif_data['result'] = "danger";
+			$notif_data['message'] = $e->getMessage();
+			$this->create_notif($notif_data);
+		}
+	}
+
+	function receipt_page()
+	{
+		$data['title'] = "Bukti Pesanan";
+		$data['user'] = $this->user;
+
+		// **
+		// view file to be loaded
+		$data['view_file'] = 'receipt_page';
+
+		if ($this->input->get('number')) {
+			// **
+			// data to show on page
+			$where = array();
+			$where['receipt_number'] = $this->input->get('number');
+		}
+		$data['pesanan_list'] = $this->pesanan_model->pesanan_get_list($where ?? null);
+
 		$this->load->view($this->layout, $data, FALSE);
 	}
 
@@ -153,6 +204,7 @@ class User extends CI_Controller
 		// access model to save pesanan with where condition
 		$where = array();
 		$where['pesanan.id_user'] = $session['id_user'];
+		$where['pesanan.id_bayar'] = "0";
 		$pesanan_list = $this->pesanan_model->pesanan_get_list($where);
 		echo count($pesanan_list);
 	}
