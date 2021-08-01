@@ -19,7 +19,7 @@
 
                                 <form class="user" method="post" action="<?= base_url('auth'); ?>">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Email">
+                                        <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Email" autofocus="autofocus">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password">
