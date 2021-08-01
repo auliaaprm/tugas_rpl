@@ -114,4 +114,20 @@ Class PesananModel extends CI_Model
 			throw new Exception($e->getMessage());
 		}
 	}
+
+	function riwayat_transaksi_get_list()
+	{
+		// **
+		// where condition
+		$where = array();
+		$where['id_user'] = $this->session->userdata()['id_user'];
+		$where['id_bayar !='] = "0";
+
+		$this->db->select('pesanan.*, SUM(total_harga) as total_pembelian');
+		$this->db->where($where);
+		$this->db->group_by('receipt_number');
+		$this->db->order_by('receipt_created_date', 'desc');
+		$q = $this->db->get('pesanan');
+		return $result = $q->num_rows() > 0 ? $q->result_array() : array();
+	}
 }
