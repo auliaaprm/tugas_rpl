@@ -5,6 +5,8 @@
 <?php endif ?>
 <div class="p-3">
 	<?= form_open(base_url("user/member/daftar"), 'class=user', $hidden ?? null); ?>
+	<h4>Pendaftaran Member</h4>
+	<hr>
 		<div class="form-group">
 			<label>Nama Member</label>
 			<input type="text" class="form-control form-control-user" id="nama_member" name="nama_member" placeholder="Nama member" autofocus="autofocus" value="<?= $this->session->userdata()['nama']; ?>" required>
