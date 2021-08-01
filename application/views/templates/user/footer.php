@@ -48,9 +48,11 @@
 	<!-- Core plugin JavaScript-->
 	<script src="<?= base_url('assets/') ?>vendor/jquery-easing/jquery.easing.min.js"></script>
 
-	<!-- Custom scripts for all pages-->
+	<!-- sb-admin-2 scripts for all pages-->
 	<script src="<?= base_url('assets/') ?>js/sb-admin-2.min.js"></script>
 
+	<!-- custom script -->
+	<script type="text/javascript" src="<?= base_url()."assets/js/custom.js" ?>"></script>
 </body>
 
 </html>

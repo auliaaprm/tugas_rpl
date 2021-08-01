@@ -1,0 +1,1 @@
+const base_url = $("[name='base_url']").val()
