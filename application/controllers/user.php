@@ -50,7 +50,7 @@ class User extends CI_Controller
 
 	function daftar_member_page()
 	{
-		$data['title'] = "Pendaftaran Member";
+		$data['title'] = "Halaman Member";
 		$data['user'] = $this->user;
 
 		// **
