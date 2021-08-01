@@ -10,6 +10,7 @@ class User extends CI_Controller
 		// load model
 		$this->load->model('MemberModel','model');
 		$this->load->model('MenuModel','menu_model');
+		$this->load->model('PesananModel','pesanan_model');
 
 		// **
 		// get user session
@@ -80,6 +81,64 @@ class User extends CI_Controller
 			$this->create_notif($notif_data);
 		}
 		redirect('user/member/daftar','refresh');
+	}
+
+	function ajax_add_item_to_cart()
+	{
+		// **
+		// prevent non ajax to access the page
+		if (!$this->input->is_ajax_request()) {
+			redirect(base_url()."user",'refresh');
+		}
+
+		// **
+		// set session variable, and check session
+		// redirect to home if no session found
+		$session = $this->session->userdata();
+		if (count($session) < 1) {
+			redirect(base_url()."user",'refresh');
+		}
+
+		// **
+		// create variable to store post value
+		$post = $this->input->post();
+		try {
+			// **
+			// access menu model to get total_harga (value needed in pesanan table)
+			$total_harga = $this->menu_model->pesanan_hitung_total_harga($post);
+			$post['total_harga'] = $total_harga;
+
+			// **
+			// access model to add item to cart
+			$post['keterangan'] = "add_to_cart";
+			echo $this->pesanan_model->pesanan_save($post);
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}
+
+	function ajax_get_cart_item_amount()
+	{
+		// **
+		// prevent non ajax to access the page
+		if (!$this->input->is_ajax_request()) {
+			redirect(base_url()."user",'refresh');
+		}
+
+		// **
+		// set session variable, and check session
+		// redirect to home if no session found
+		$session = $this->session->userdata();
+		if (count($session) < 1) {
+			redirect(base_url()."user",'refresh');
+		}
+
+		// **
+		// access model to save pesanan with where condition
+		$where = array();
+		$where['pesanan.id_user'] = $session['id_user'];
+		$pesanan_list = $this->pesanan_model->pesanan_get_list($where);
+		echo count($pesanan_list);
 	}
 
 	function create_notif($data)
