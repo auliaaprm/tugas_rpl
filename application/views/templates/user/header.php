@@ -24,7 +24,7 @@
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
-
+		<input type="hidden" name="base_url" value="<?= base_url() ?>">
 		<!-- Sidebar -->
 		<ul class="navbar-nav bg-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
