@@ -81,6 +81,19 @@ class User extends CI_Controller
 		}
 	}
 
+	function riwayat_transaksi_page()
+	{
+		$data['title'] = "Riwayat Transaksi";
+		$data['user'] = $this->user;
+
+		// **
+		// view file to be loaded
+		$data['view_file'] = 'riwayat_transaksi_page';
+		$data['pesanan_list'] = $this->pesanan_model->riwayat_transaksi_get_list();
+
+		$this->load->view($this->layout, $data, FALSE);
+	}
+
 	function receipt_page()
 	{
 		$data['title'] = "Bukti Pesanan";
