@@ -64,7 +64,7 @@
 			<li class="nav-item">
 				<a class="nav-link" href="<?= base_url('user/member/daftar') ?>">
 					<i class="fas fa-gift"></i>
-					<span>Daftar Member</span></a>
+					<span>Halaman Member</span></a>
 
 			<li class="nav-item">
 				<a class="nav-link" href="charts.html">
