@@ -49,3 +49,23 @@ function get_cart_item_amount() {
 		}
 	);
 }
+
+$(document).on("click",".metode-shipment",function(){
+	let metode_shipment = $(this).val()
+	let total_harga_element = $(".total-harga-value")
+
+	let total_harga = total_harga_element.data("value")
+	if (typeof total_harga === 'number') {
+		total_harga = total_harga.toString()
+	}
+
+	total_harga = parseInt(total_harga.split(".").join(""))
+	if (metode_shipment == 3 ) {
+		$(".ongkir-value").css("text-decoration","none")
+		let total_harga_after = total_harga+10000
+		total_harga_element.html(total_harga_after.toLocaleString("id-ID"))
+	} else {
+		$(".ongkir-value").css("text-decoration","line-through")
+		total_harga_element.html(total_harga.toLocaleString("id-ID"))
+	}
+})
