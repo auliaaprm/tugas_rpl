@@ -38,6 +38,11 @@ $(document).on("click",".btn-decrease-item",function(){
 	}
 })
 
+$(document).on("click",".btn-hapus-item", function(){
+	let element = $(this)
+	element.closest(".d-flex").find(".amount-item").val("0")
+})
+
 function get_cart_item_amount() {
 	let url = `${base_url}/user/ajax_get_cart_item_amount`
 	$.get(
