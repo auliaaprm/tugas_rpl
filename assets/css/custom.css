@@ -18,3 +18,12 @@ input[type=number] {
   -ms-user-select: none;
   user-select: none;
 }
+
+.clickable-div {
+	text-decoration: none!important;
+	color:#858796!important;
+}
+
+.clickable-div:hover {
+	color:#555555!important;
+}
