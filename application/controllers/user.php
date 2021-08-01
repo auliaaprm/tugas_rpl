@@ -34,6 +34,22 @@ class User extends CI_Controller
 		// $this->load->view('user/index', $data);
 	}
 
+	function keranjang_page()
+	{
+		$data['title'] = "Keranjang";
+		$data['user'] = $this->user;
+
+		// **
+		// view file to be loaded
+		$data['view_file'] = 'keranjang_page';
+		$data['title_page'] = 'Pesanan Anda';
+
+		// **
+		// data on that page
+		$data['menu_list'] = $this->menu_model->menu_get_list();
+		$this->load->view($this->layout, $data, FALSE);
+	}
+
 	function menu_page()
 	{
 		$data['title'] = "Daftar Menu";
@@ -110,7 +126,7 @@ class User extends CI_Controller
 
 			// **
 			// access model to add item to cart
-			$post['keterangan'] = "add_to_cart";
+			$post['id_bayar'] = "0";
 			echo $this->pesanan_model->pesanan_save($post);
 		} catch (Exception $e) {
 			echo $e->getMessage();
