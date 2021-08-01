@@ -17,7 +17,7 @@
 		</div>
 		<div class="form-group">
 			<label>Email</label>
-			<input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Email Address" value="<?= $this->session->userdata()['email']; ?>" required>
+			<input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Alamat Email" value="<?= $this->session->userdata()['email']; ?>" required>
 		</div>
 		<div class="form-group">
 			<label>Tanggal Lahir</label>
